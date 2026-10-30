@@ -1,48 +1,64 @@
-# ProjetoFinal — Cadastro de Clientes e Contas Bancárias
+# Sistema Bancário — Java
 
-Aplicação de console em **Java** que permite cadastrar clientes, associar contas bancárias a cada um e listar tudo em um menu interativo. Projeto feito durante o curso técnico de Análise e Desenvolvimento de Sistemas, com foco em Programação Orientada a Objetos.
+[![CI](https://github.com/Gabrielmachado01gg/ProjetoFinal/actions/workflows/ci.yml/badge.svg)](https://github.com/Gabrielmachado01gg/ProjetoFinal/actions/workflows/ci.yml)
+![Java 17](https://img.shields.io/badge/Java-17-ED8B00?logo=openjdk&logoColor=white)
+![Licença MIT](https://img.shields.io/badge/licen%C3%A7a-MIT-green)
+
+Sistema bancário de console em **Java 17**, com regras de negócio separadas da interface e cobertura de testes automatizados. Começou como trabalho do curso técnico de Análise e Desenvolvimento de Sistemas e foi refatorado seguindo boas práticas de mercado.
 
 ## Funcionalidades
 
-1. Cadastrar cliente (nome e CPF)
-2. Cadastrar conta bancária (número e saldo inicial) e associá-la a um cliente
-3. Mostrar clientes e suas contas
-4. Sair
+- Cadastro de clientes com **validação de CPF** (dígitos verificadores)
+- Abertura de contas com número gerado automaticamente
+- Depósito, saque e **transferência** entre contas
+- Listagem de clientes e contas
+
+## Decisões de projeto
+
+- **`BigDecimal` para dinheiro:** `double` acumula erro de arredondamento.
+- **Encapsulamento:** atributos privados, lista de contas somente leitura, objetos válidos desde a criação.
+- **Objeto de valor `Cpf`:** a validação fica em um só lugar e um CPF inválido nunca entra no sistema.
+- **Separação de responsabilidades:** `Banco` guarda as regras e `Main` só cuida da tela.
+- **Exceções específicas:** `SaldoInsuficienteException` em vez de mensagens soltas.
+- **Operações atômicas:** uma transferência que falha não altera nenhuma das contas.
 
 ## Estrutura
 
 ```
-src/com/mycompany/xablau/
-├── Main.java            # menu e fluxo do programa
-├── Cliente.java         # nome, CPF e lista de contas
-└── ContaBancaria.java   # número e saldo
+src/main/java/com/gabrielwiedenhoft/banco/
+├── Main.java                       # interface de console
+├── Banco.java                      # regras de negócio
+├── Cliente.java
+├── ContaBancaria.java
+├── Cpf.java                        # objeto de valor com validação
+└── SaldoInsuficienteException.java
+src/test/java/...                   # testes JUnit 5
 ```
-
-## Conceitos praticados
-
-- Classes e objetos, associação entre classes (um cliente tem várias contas)
-- Coleções com `ArrayList`
-- Entrada de dados com `Scanner`
-- Menu em laço com `switch`
 
 ## Como executar
 
-Requisito: JDK 17 ou superior.
+Requisitos: JDK 17+ e Maven 3.9+.
 
 ```bash
 git clone https://github.com/Gabrielmachado01gg/ProjetoFinal.git
 cd ProjetoFinal
-javac -d out src/com/mycompany/xablau/*.java
-java -cp out com.mycompany.xablau.Main
+mvn -B test                 # roda os testes
+mvn -q package -DskipTests  # gera o jar
+java -jar target/sistema-bancario-1.0.0.jar
 ```
+
+## Testes
+
+Os testes cobrem a validação de CPF, depósito, saque, transferência (incluindo falhas) e as regras do `Banco`. Rodam automaticamente no GitHub Actions a cada push.
 
 ## Próximos passos
 
-- [ ] Validar o CPF e a entrada de dados
-- [ ] Adicionar depósito, saque e transferência
-- [ ] Salvar os dados em arquivo ou banco de dados
-- [ ] Criar testes automatizados
+- [ ] Persistência em banco de dados (JDBC ou JPA)
+- [ ] Extrato com histórico de operações
+- [ ] API REST com Spring Boot
 
 ## Autor
 
 Gabriel Wiedenhoft — [LinkedIn](https://www.linkedin.com/in/gabriel-wiedenhoft-machado)
+
+Licença [MIT](LICENSE).
