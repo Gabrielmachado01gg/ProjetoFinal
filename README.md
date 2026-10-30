@@ -1,99 +1,48 @@
-# ProjetoFinal
+# ProjetoFinal — Cadastro de Clientes e Contas Bancárias
 
-package com.mycompany.xablau;
+Aplicação de console em **Java** que permite cadastrar clientes, associar contas bancárias a cada um e listar tudo em um menu interativo. Projeto feito durante o curso técnico de Análise e Desenvolvimento de Sistemas, com foco em Programação Orientada a Objetos.
 
-import java.util.ArrayList;
-import java.util.Scanner;
+## Funcionalidades
 
-public class Main {
-    static ArrayList<Cliente> clientes = new ArrayList<>();
+1. Cadastrar cliente (nome e CPF)
+2. Cadastrar conta bancária (número e saldo inicial) e associá-la a um cliente
+3. Mostrar clientes e suas contas
+4. Sair
 
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+## Estrutura
 
-        while (true) {
-            System.out.println("Escolha uma opção:");
-            System.out.println("1. Cadastrar cliente");
-            System.out.println("2. Cadastrar conta bancária");
-            System.out.println("3. Mostrar clientes e suas contas");
-            System.out.println("4. Sair");
+```
+src/com/mycompany/xablau/
+├── Main.java            # menu e fluxo do programa
+├── Cliente.java         # nome, CPF e lista de contas
+└── ContaBancaria.java   # número e saldo
+```
 
-            int escolha = scanner.nextInt();
-            scanner.nextLine(); // Consumir a quebra de linha
+## Conceitos praticados
 
-            switch (escolha) {
-                case 1:
-                    cadastrarCliente(scanner);
-                    break;
-                case 2:
-                    cadastrarConta(scanner);
-                    break;
-                case 3:
-                    mostrarClientesEContas();
-                    break;
-                case 4:
-                    System.out.println("Saindo do programa.");
-                    return;
-                default:
-                    System.out.println("Opção inválida.");
-            }
-        }
-    }
+- Classes e objetos, associação entre classes (um cliente tem várias contas)
+- Coleções com `ArrayList`
+- Entrada de dados com `Scanner`
+- Menu em laço com `switch`
 
-    public static void cadastrarCliente(Scanner scanner) {
-        System.out.println("Digite o nome do cliente:");
-        String nome = scanner.nextLine();
+## Como executar
 
-        System.out.println("Digite o CPF do cliente:");
-        String cpf = scanner.nextLine();
+Requisito: JDK 17 ou superior.
 
-        Cliente cliente = new Cliente(nome, cpf);
-        clientes.add(cliente);
+```bash
+git clone https://github.com/Gabrielmachado01gg/ProjetoFinal.git
+cd ProjetoFinal
+javac -d out src/com/mycompany/xablau/*.java
+java -cp out com.mycompany.xablau.Main
+```
 
-        System.out.println("Cliente cadastrado com sucesso!");
-    }
+## Próximos passos
 
-    public static void cadastrarConta(Scanner scanner) {
-        if (clientes.isEmpty()) {
-            System.out.println("Não há clientes cadastrados. Cadastre um cliente primeiro.");
-            return;
-        }
+- [ ] Validar o CPF e a entrada de dados
+- [ ] Adicionar depósito, saque e transferência
+- [ ] Salvar os dados em arquivo ou banco de dados
+- [ ] Criar testes automatizados
 
-        System.out.println("Selecione um cliente para associar a conta:");
-        for (int i = 0; i < clientes.size(); i++) {
-            System.out.println((i + 1) + ". " + clientes.get(i).nome);
-        }
+## Autor
 
-        int escolha = scanner.nextInt();
-        scanner.nextLine(); // Consumir a quebra de linha
-        Cliente cliente = clientes.get(escolha - 1);
-
-        System.out.println("Digite o número da conta:");
-        String numeroConta = scanner.nextLine();
-
-        System.out.println("Digite o saldo inicial da conta:");
-        double saldoInicial = scanner.nextDouble();
-        scanner.nextLine(); // Consumir a quebra de linha
-
-        ContaBancaria conta = new ContaBancaria(numeroConta, saldoInicial);
-        cliente.adicionarConta(conta);
-
-        System.out.println("Conta cadastrada com sucesso!");
-    }
-
-    public static void mostrarClientesEContas() {
-        if (clientes.isEmpty()) {
-            System.out.println("Não há clientes cadastrados.");
-            return;
-        }
-
-        for (Cliente cliente : clientes) {
-            System.out.println(cliente);
-            System.out.println("Contas:");
-            for (ContaBancaria conta : cliente.contas) {
-                System.out.println(conta);
-            }
-            System.out.println();
-        }
-    }
-}
+Gabriel Wiedenhoft — [LinkedIn](https://www.linkedin.com/in/gabriel-wiedenhoft-machado)
