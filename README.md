@@ -59,6 +59,6 @@ Os testes cobrem a validação de CPF, depósito, saque, transferência (incluin
 
 ## Autor
 
-Gabriel Wiedenhoft — [LinkedIn](https://www.linkedin.com/in/gabriel-wiedenhoft-machado)
+Gabriel Wiedenhoft — [LinkedIn](https://www.linkedin.com/in/gabriel-wiedenhoft-8a3256286)
 
 Licença [MIT](LICENSE).
